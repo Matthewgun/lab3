@@ -34,15 +34,18 @@ jobs:
 
       # Проверка на существование тега перед созданием релиза
       - name: Check if tag exists
+        id: check_tag_macos
         run: |
           if git rev-parse "refs/tags/v${{ github.run_number }}-macos" >/dev/null 2>&1; then
             echo "Tag exists for macOS. Exiting..."
+            echo "tag_exists=true" >> $GITHUB_ENV
             exit 0
           fi
 
-      # Создание релиза для macOS
+      # Создание релиза для macOS, если тег не существует
       - name: Create Release for macOS
         id: create_release_macos
+        if: env.tag_exists != 'true'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -80,15 +83,18 @@ jobs:
 
       # Проверка на существование тега перед созданием релиза (удалены шаги для создания пакета)
       - name: Check if tag exists
+        id: check_tag_linux
         run: |
           if git rev-parse "refs/tags/v${{ github.run_number }}-linux" >/dev/null 2>&1; then
             echo "Tag exists for Linux. Exiting..."
+            echo "tag_exists=true" >> $GITHUB_ENV
             exit 0
           fi
 
-      # Создание релиза для Linux (удалены шаги для загрузки пакета)
+      # Создание релиза для Linux, если тег не существует (удалены шаги для загрузки пакета)
       - name: Create Release for Linux
         id: create_release_linux
+        if: env.tag_exists != 'true'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

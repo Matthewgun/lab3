@@ -2,15 +2,15 @@
 #include <utility>
 
 //Последовательный контейнер 
-struct SequentialContainer {
+struct ConsistentContainer {
     int* data; // Указатель на массив 
     int size; // Текущее количество элементов
     int maxsize; // Максимальный размер массива
 
-    SequentialContainer() : data(nullptr), size(0), maxsize(0) {}
+    ConsistentContainer() : data(nullptr), size(0), maxsize(0) {}
     
     // Перемещающий конструктор
-    SequentialContainer(SequentialContainer&& rvalue) noexcept
+    ConsistentContainer(ConsistentContainer&& rvalue) noexcept
     : data(std::move(rvalue.data)), size(rvalue.size), maxsize(rvalue.maxsize) {
         rvalue.data = nullptr; // Освобождаем указатель у другого объекта
         rvalue.size = 0;
@@ -18,7 +18,7 @@ struct SequentialContainer {
     }
 
     // Перемещающий оператор присваивания
-    SequentialContainer& operator=(SequentialContainer&& rvalue) noexcept {
+    ConsistentContainer& operator=(ConsistentContainer&& rvalue) noexcept {
         if (this != &rvalue) { 
         data = rvalue.data;
         size = rvalue.size;
@@ -123,13 +123,12 @@ struct SequentialContainer {
     // Оператор [] для доступа к элементам по индексу (новый)
     int& operator[](int index) {
         if (index < 0 || index >= size) {      
-            // Обработка недопустимого индекса (выбрасывание исключения)
             throw std::out_of_range("Индекс вне диапазона");
         }
         return data[index];// Возвращаем элемент по индексу
     }
 
-    // Структура итератора для SequentialContainer
+    // Структура итератора для ConsistentContainer
     struct Iterator {
         int* ptr;
 
@@ -173,7 +172,7 @@ struct SequentialContainer {
     }
 
     // Деструктор
-    ~SequentialContainer() {
+    ~ConsistentContainer() {
     //delete[] data;
     }
 };
@@ -579,12 +578,12 @@ public:
 
 int main() {
 // Создание объектов контейнеров
-    SequentialContainer vec;
+    ConsistentContainer vec;
     DoubleLinkedList Double_lst;
     SinglyLinkedList Singl_lst;
 
-    // Тестирование контейнера SequentialContainer
-    std::cout << "SequentialContainer:" << std::endl;
+    // Тестирование контейнера ConsistentContainer
+    std::cout << "ConsistentContainer:" << std::endl;
 
     // Добавление элементов
     for (int i = 0; i < 10; ++i) {
@@ -694,10 +693,10 @@ int main() {
 
 
     
-   // Демонстрация семантики перемещения для SequentialContainer
+   // Демонстрация семантики перемещения для ConsistentContainer
    {
-       std::cout << "Демонстрация семантики перемещения для SequentialContainer:\n";
-       SequentialContainer conte;
+       std::cout << "Демонстрация семантики перемещения для ConsistentContainer:\n";
+       ConsistentContainer conte;
        conte.push_back(1);
        conte.push_back(2);
        conte.push_back(3);
@@ -705,7 +704,7 @@ int main() {
        std::cout << "conte не пуст: ";
        conte.print();
 
-       SequentialContainer moved_container = std::move(conte); 
+       ConsistentContainer moved_container = std::move(conte); 
        std::cout << "Содержимое moved_container после перемещения: ";
        moved_container.print();
 
