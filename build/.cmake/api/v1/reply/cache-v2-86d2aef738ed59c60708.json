@@ -1514,18 +1514,6 @@
 			"value" : "[C:/msys64/mingw64/lib/cmake/Boost-1.84.0/BoostConfig.cmake][cfound components: unit_test_framework ][v1.84.0()]"
 		},
 		{
-			"name" : "PATCH_VERSION",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Patch version"
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "1"
-		},
-		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",
 			"properties" : 
 			[

@@ -56,7 +56,7 @@ jobs:
           draft: false
           prerelease: false
 
-      # Загрузка пакета в релиз для macOS
+      # Загрузка пакета в релиз для macOS (уберите эту часть, если пакет не создается)
       - name: Upload macOS Release Asset
         id: upload_release_asset_macos
         uses: actions/upload-release-asset@v1
@@ -68,7 +68,7 @@ jobs:
           asset_name: helloworld-0.0.${{ github.run_number }}-macOS.pkg
           asset_content_type: application/octet-stream
 
-  # Workflow для сборки и релиза на Linux
+  # Workflow для сборки и релиза на Linux (удалены шаги для создания пакета)
   build-linux:
     runs-on: ubuntu-latest
     permissions: write-all
@@ -94,11 +94,7 @@ jobs:
       - name: Run tests
         run: cmake --build . --target test || echo "No tests to run"
 
-      # Создание пакета для Linux (убедитесь, что у вас настроен CPack)
-      - name: Package for Linux
-        run: cmake --build . --target package
-
-      # Проверка на существование тега перед созданием релиза
+      # Проверка на существование тега перед созданием релиза (удалены шаги для создания пакета)
       - name: Check if tag exists
         run: |
           if git rev-parse "refs/tags/v${{ github.run_number }}-linux" >/dev/null 2>&1; then
@@ -106,7 +102,8 @@ jobs:
             exit 0
           fi
 
-      # Создание релиза для Linux
+
+      # Создание релиза для Linux (удалены шаги для загрузки пакета)
       - name: Create Release for Linux
         id: create_release_linux
         uses: actions/create-release@v1
@@ -117,15 +114,3 @@ jobs:
           release_name: Release ${{ github.run_number }} for Linux
           draft: false
           prerelease: false
-
-      # Загрузка пакета в релиз для Linux
-      - name: Upload Linux Release Asset
-        id: upload_release_asset_linux
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release_linux.outputs.upload_url }}
-          asset_path: ./helloworld-0.0.${{ github.run_number }}-Linux.deb  # Убедитесь, что этот файл создается!
-          asset_name: helloworld-0.0.${{ github.run_number }}-Linux.deb 
-          asset_content_type: application/vnd.debian.binary-package 
