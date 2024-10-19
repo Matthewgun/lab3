@@ -34,7 +34,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag_name: v${{ github.run_number }}  # Use the run number as the tag
-          release_name: Release ${{ github.run_number }} (Ubuntu)
+          release_name: Release v${{ github.run_number }} (Ubuntu)
           allowUpdates: true  # Allow updating existing releases
           token: ${{ secrets.GITHUB_TOKEN }}
       
@@ -74,7 +74,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag_name: v${{ github.run_number }}  # Use the run number as the tag
-          release_name: Release ${{ github.run_number }} (MacOS)
+          release_name: Release v${{ github.run_number }} (MacOS)
           allowUpdates: true  # Allow updating existing releases
           token: ${{ secrets.GITHUB_TOKEN }}
       
@@ -87,4 +87,4 @@ jobs:
           upload_url: ${{ steps.create_release_macos.outputs.upload_url }}
           asset_path: ./coollab2-0.0.${{ github.run_number }}-Darwin.zip 
           asset_name: coollab2-0.0.${{ github.run_number }}-Darwin.zip 
-          asset_content_type: application/zip re
+          asset_content_type: application/zip 
