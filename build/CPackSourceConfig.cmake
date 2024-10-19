@@ -29,7 +29,7 @@ set(CPACK_IGNORE_FILES "/CVS/;/\\.svn/;/\\.bzr/;/\\.hg/;/\\.git/;\\.swp\$;\\.#;/
 set(CPACK_INNOSETUP_ARCHITECTURE "x64")
 set(CPACK_INSTALLED_DIRECTORIES "C:/labskazenkov/lab3;/")
 set(CPACK_INSTALL_CMAKE_PROJECTS "")
-set(CPACK_INSTALL_PREFIX "C:/Program Files (x86)/helloworld")
+set(CPACK_INSTALL_PREFIX "C:/Program Files (x86)/coollab2")
 set(CPACK_MODULE_PATH "")
 set(CPACK_NSIS_DISPLAY_NAME "coollab2 0.0.1")
 set(CPACK_NSIS_INSTALLER_ICON_CODE "")

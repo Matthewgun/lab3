@@ -40,6 +40,39 @@ include CMakeFiles/rules.ninja
 # Logical path to working directory; prefix for absolute paths.
 
 cmake_ninja_workdir = C$:/labskazenkov/lab3/build/
+# =============================================================================
+# Object build statements for EXECUTABLE target coollab2
+
+
+#############################################
+# Order-only phony target for coollab2
+
+build cmake_object_order_depends_target_coollab2: phony || CMakeFiles/coollab2.dir
+
+build CMakeFiles/coollab2.dir/main.cpp.obj: CXX_COMPILER__coollab2_unscanned_Debug C$:/labskazenkov/lab3/main.cpp || cmake_object_order_depends_target_coollab2
+  DEP_FILE = CMakeFiles\coollab2.dir\main.cpp.obj.d
+  FLAGS = -g -std=gnu++17
+  OBJECT_DIR = CMakeFiles\coollab2.dir
+  OBJECT_FILE_DIR = CMakeFiles\coollab2.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target coollab2
+
+
+#############################################
+# Link the executable coollab2.exe
+
+build coollab2.exe: CXX_EXECUTABLE_LINKER__coollab2_Debug CMakeFiles/coollab2.dir/main.cpp.obj
+  FLAGS = -g
+  LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\coollab2.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = coollab2.exe
+  TARGET_IMPLIB = libcoollab2.dll.a
+  TARGET_PDB = coollab2.exe.dbg
+
 
 #############################################
 # Utility command for package
@@ -102,6 +135,8 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
+build coollab2: phony coollab2.exe
+
 # =============================================================================
 # Folder targets.
 
@@ -110,7 +145,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: C:/labskazenkov/lab3/build
 
-build all: phony
+build all: phony coollab2.exe
 
 # =============================================================================
 # Built-in targets

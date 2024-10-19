@@ -12,7 +12,11 @@
 						"string" : "3.5.0"
 					},
 					"projectIndex" : 0,
-					"source" : "."
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
 				}
 			],
 			"name" : "Debug",
@@ -23,10 +27,23 @@
 					[
 						0
 					],
-					"name" : "coollab2"
+					"name" : "coollab2",
+					"targetIndexes" : 
+					[
+						0
+					]
 				}
 			],
-			"targets" : []
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "coollab2::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-coollab2-Debug-44f01a1b630b7aa51d3d.json",
+					"name" : "coollab2",
+					"projectIndex" : 0
+				}
+			]
 		}
 	],
 	"kind" : "codemodel",
