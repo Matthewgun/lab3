@@ -27,12 +27,13 @@ jobs:
       # Check if tag exists before creating a release
       - name: Check if tag exists
         run: |
-          if git rev-parse "refs/tags/v${{ github.run_number }}" >/dev/null 2>&1; then
+          $tag = "refs/tags/v${{ github.run_number }}"
+          if (git rev-parse $tag 2>$null) {
             echo "Tag exists. Skipping release."
             echo "skip_release=true" >> $GITHUB_ENV
-          else
+          } else {
             echo "skip_release=false" >> $GITHUB_ENV
-          fi
+          }
       
       # Creates release only if the tag does not exist
       - name: Create Release (Windows)
@@ -75,12 +76,13 @@ jobs:
       # Check if tag exists before creating a release for Ubuntu
       - name: Check if tag exists for Ubuntu
         run: |
-          if git rev-parse "refs/tags/v${{ github.run_number }}" >/dev/null 2>&1; then
+          $tag = "refs/tags/v${{ github.run_number }}"
+          if (git rev-parse $tag 2>$null) {
             echo "Tag exists. Skipping Ubuntu release."
             echo "skip_release_ubuntu=true" >> $GITHUB_ENV
-          else
+          } else {
             echo "skip_release_ubuntu=false" >> $GITHUB_ENV
-          fi
+          }
       
       # Creates release only if the tag does not exist for Ubuntu
       - name: Create Release (Ubuntu)
