@@ -38,7 +38,7 @@ jobs:
         run: |
           if git rev-parse "refs/tags/v${{ github.run_number }}-macos" >/dev/null 2>&1; then
             echo "Tag exists for macOS. Exiting..."
-            echo "tag_exists=true" >> $GITHUB_ENV
+            echo "tag_exists=true" >> $GITHUB_ENV  # Запись в Environment Files
             exit 0
           fi
 
@@ -87,7 +87,7 @@ jobs:
         run: |
           if git rev-parse "refs/tags/v${{ github.run_number }}-linux" >/dev/null 2>&1; then
             echo "Tag exists for Linux. Exiting..."
-            echo "tag_exists=true" >> $GITHUB_ENV
+            echo "tag_exists=true" >> $GITHUB_ENV  # Запись в Environment Files
             exit 0
           fi
 
