@@ -27,12 +27,13 @@ jobs:
       # Creates release without checking if the tag exists
       - name: Create Release (Windows)
         id: create_release_windows
-        uses: actions/create-release@v1 
+        uses: ncipollo/release-action@v1 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
         with:
-          tag_name: v${{ github.run_number }}  
+          tag_name: v${{ github.run_number }}-${{ github.sha }}  # Use unique tag names
           release_name: Release v${{ github.run_number }} (Windows)
+          allowUpdates: true  # Allow updating existing releases
           draft: false 
           prerelease: false 
       
@@ -64,12 +65,13 @@ jobs:
       # Creates release without checking if the tag exists for Ubuntu
       - name: Create Release (Ubuntu)
         id: create_release_ubuntu
-        uses: actions/create-release@v1  
+        uses: ncipollo/release-action@v1  
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
         with:
-          tag_name: v${{ github.run_number }}  
+          tag_name: v${{ github.run_number }}-${{ github.sha }}  # Use unique tag names
           release_name: Release v${{ github.run_number }} (Ubuntu)
+          allowUpdates: true  # Allow updating existing releases
           draft: false  
           prerelease: false 
       
