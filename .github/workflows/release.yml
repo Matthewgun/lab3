@@ -3,48 +3,41 @@ name: Build and Release for Linux and macOS
 on:
   push:
     branches:
-      - main  # или другая ветка, при пуше в которую будет триггериться workflow
+      - main
 
 jobs:
-  # Workflow для сборки и релиза на macOS
   build-macos:
     runs-on: macos-latest
-    permissions: write-all # Заданию предоставляются права на запись во все ресурсы GitHub
+    permissions: write-all
     steps:
-      # Чекаут кода
       - uses: actions/checkout@v3
         with:
           submodules: true
 
-      # Установка зависимостей для macOS
       - name: Install dependencies
         run: brew update && brew install boost
 
-      # Генерация сборочных файлов
       - name: Configure project
         run: cmake . -DPATCH_VERSION=${{ github.run_number }}
 
-      # Компиляция проекта
       - name: Build project
         run: cmake --build .
 
-      # Запуск тестов (если у вас их нет, можно убрать этот шаг)
       - name: Run tests
         run: cmake --build . --target test || echo "No tests to run"
 
-      # Проверка на существование тега перед созданием релиза
       - name: Check if tag exists
         id: check_tag_macos
         run: |
           if git rev-parse "refs/tags/v${{ github.run_number }}-macos" >/dev/null 2>&1; then
             echo "Tag exists for macOS. Exiting..."
-            echo "tag_exists=true" >> $GITHUB_ENV  # Запись в Environment Files
+            echo "tag_exists=true" >> $GITHUB_ENV 
             exit 0
+          else
+            echo "tag_exists=false" >> $GITHUB_ENV 
           fi
 
-      # Создание релиза для macOS, если тег не существует
       - name: Create Release for macOS
-        id: create_release_macos
         if: env.tag_exists != 'true'
         uses: actions/create-release@v1
         env:
@@ -55,51 +48,44 @@ jobs:
           draft: false
           prerelease: false
 
-  # Workflow для сборки и релиза на Linux (удалены шаги для создания пакета)
   build-linux:
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
-      # Чекаут кода
       - uses: actions/checkout@v3
         with:
           submodules: true
 
-      # Установка зависимостей для Linux
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y libboost-test-dev
 
-      # Генерация сборочных файлов
       - name: Configure project
         run: cmake . -DPATCH_VERSION=${{ github.run_number }}
 
-      # Компиляция проекта
       - name: Build project
         run: cmake --build .
 
-      # Запуск тестов (если у вас их нет, можно убрать этот шаг)
       - name: Run tests
         run: cmake --build . --target test || echo "No tests to run"
 
-      # Проверка на существование тега перед созданием релиза (удалены шаги для создания пакета)
-      - name: Check if tag exists
+      - name: Check if tag exists for Linux
         id: check_tag_linux
         run: |
           if git rev-parse "refs/tags/v${{ github.run_number }}-linux" >/dev/null 2>&1; then
             echo "Tag exists for Linux. Exiting..."
-            echo "tag_exists=true" >> $GITHUB_ENV  # Запись в Environment Files
-            exit 0
+            echo "tag_exists=true" >> $GITHUB_ENV 
+            exit 0 
+          else 
+            echo "tag_exists=false" >> $GITHUB_ENV 
           fi
 
-      # Создание релиза для Linux, если тег не существует (удалены шаги для загрузки пакета)
-      - name: Create Release for Linux
-        id: create_release_linux
+      - name: Create Release for Linux 
         if: env.tag_exists != 'true'
-        uses: actions/create-release@v1
+        uses: actions/create-release@v1 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ github.run_number }}-linux
-          release_name: Release ${{ github.run_number }} for Linux
-          draft: false
-          prerelease: false
+          tag_name: v${{ github.run_number }}-linux 
+          release_name: Release ${{ github.run_number }} for Linux 
+          draft: false 
+          prerelease: false 
