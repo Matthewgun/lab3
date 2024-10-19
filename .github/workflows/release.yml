@@ -24,16 +24,16 @@ jobs:
       - name: List files before creating release
         run: dir
       
-      # Check if tag exists before creating a release
+      # Check if tag exists before creating a release (Windows)
       - name: Check if tag exists
         run: |
-          git fetch --tags  # Fetch existing tags
-          if git rev-parse "refs/tags/v${{ github.run_number }}" >/dev/null 2>&1; then
+          $tag = "refs/tags/v${{ github.run_number }}"
+          if (git rev-parse $tag 2>$null) {
             echo "Tag exists. Skipping release."
             echo "skip_release=true" >> $GITHUB_ENV
-          else
+          } else {
             echo "skip_release=false" >> $GITHUB_ENV
-          fi
+          }
       
       # Creates release only if the tag does not exist
       - name: Create Release (Windows)
@@ -76,12 +76,35 @@ jobs:
       # Check if tag exists before creating a release for Ubuntu
       - name: Check if tag exists for Ubuntu
         run: |
-          git fetch --tags  # Fetch existing tags
-          if git rev-parse "refs/tags/v${{ github.run_number }}" >/dev/null 2>&1; then
+          tag="refs/tags/v${{ github.run_number }}"
+          if git rev-parse "$tag" >/dev/null 2>&1; then
             echo "Tag exists. Skipping Ubuntu release."
             echo "skip_release_ubuntu=true" >> $GITHUB_ENV
           else
             echo "skip_release_ubuntu=false" >> $GITHUB_ENV
           fi
       
-      # Creates release only if the tag does not exist
+      # Creates release only if the tag does not exist for Ubuntu
+      - name: Create Release (Ubuntu)
+        id: create_release_ubuntu
+        if: env.skip_release_ubuntu != 'true'
+        uses: actions/create-release@v1  
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+        with:
+          tag_name: v${{ github.run_number }}  
+          release_name: Release v${{ github.run_number }} (Ubuntu)
+          draft: false  
+          prerelease: false 
+      
+      # Uploads the release asset for Ubuntu
+      - name: Upload Release Asset (Ubuntu)
+        id: upload-release-asset-ubuntu
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release_ubuntu.outputs.upload_url }}
+          asset_path: ./laba3-0.0.${{ github.run_number }}-Linux.deb  
+          asset_name: laba3-0.0.${{ github.run_number }}-Linux.deb
+          asset_content_type: application/vnd.debian.binary-package
