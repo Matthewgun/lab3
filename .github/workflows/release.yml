@@ -73,4 +73,18 @@ jobs:
         id: create_release_macos
         uses: ncipollo/release-action@v1
         with:
-          tag_name: v${{ github
+          tag_name: v${{ github.run_number }}  # Use the run number as the tag
+          release_name: Release ${{ github.run_number }} (MacOS)
+          allowUpdates: true  # Allow updating existing releases
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Upload Release Asset (MacOS)
+        id: upload-release-asset-macos
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release_macos.outputs.upload_url }}
+          asset_path: ./coollab2-0.0.${{ github.run_number }}-Darwin.zip 
+          asset_name: coollab2-0.0.${{ github.run_number }}-Darwin.zip 
+          asset_content_type: application/zip re
