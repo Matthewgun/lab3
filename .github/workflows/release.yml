@@ -26,7 +26,7 @@ jobs:
       - name: Run tests
         run: cmake --build . --target test || echo "No tests to run"
 
-      - name: Check if tag exists
+      - name: Check if tag exists for macOS
         id: check_tag_macos
         run: |
           if git rev-parse "refs/tags/v${{ github.run_number }}-macos" >/dev/null 2>&1; then
@@ -36,6 +36,10 @@ jobs:
           else
             echo "tag_exists=false" >> $GITHUB_ENV 
           fi
+
+      - name: Debug Environment Variables
+        run: |
+          echo "Current tag_exists value is ${{ env.tag_exists }}"
 
       - name: Create Release for macOS
         if: env.tag_exists != 'true'
@@ -78,6 +82,10 @@ jobs:
           else 
             echo "tag_exists=false" >> $GITHUB_ENV 
           fi
+
+      - name: Debug Environment Variables for Linux
+        run: |
+          echo "Current tag_exists value is ${{ env.tag_exists }}"
 
       - name: Create Release for Linux 
         if: env.tag_exists != 'true'
