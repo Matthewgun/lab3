@@ -24,21 +24,9 @@ jobs:
       - name: List files before creating release
         run: dir
       
-      # Check if tag exists before creating a release (Windows)
-      - name: Check if tag exists
-        run: |
-          $tag = "refs/tags/v${{ github.run_number }}"
-          if (git rev-parse $tag 2>$null) {
-            echo "Tag exists. Skipping release."
-            echo "skip_release=true" >> $GITHUB_ENV
-          } else {
-            echo "skip_release=false" >> $GITHUB_ENV
-          }
-      
-      # Creates release only if the tag does not exist
+      # Creates release without checking if the tag exists
       - name: Create Release (Windows)
         id: create_release_windows
-        if: env.skip_release != 'true'
         uses: actions/create-release@v1 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
@@ -73,21 +61,9 @@ jobs:
       
       - run: cmake --build . --target package  
       
-      # Check if tag exists before creating a release for Ubuntu
-      - name: Check if tag exists for Ubuntu
-        run: |
-          tag="refs/tags/v${{ github.run_number }}"
-          if git rev-parse "$tag" >/dev/null 2>&1; then
-            echo "Tag exists. Skipping Ubuntu release."
-            echo "skip_release_ubuntu=true" >> $GITHUB_ENV
-          else
-            echo "skip_release_ubuntu=false" >> $GITHUB_ENV
-          fi
-      
-      # Creates release only if the tag does not exist for Ubuntu
+      # Creates release without checking if the tag exists for Ubuntu
       - name: Create Release (Ubuntu)
         id: create_release_ubuntu
-        if: env.skip_release_ubuntu != 'true'
         uses: actions/create-release@v1  
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
