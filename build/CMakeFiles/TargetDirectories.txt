@@ -1,4 +1,3 @@
-C:/labskazenkov/lab3/build/CMakeFiles/helloworld.dir
 C:/labskazenkov/lab3/build/CMakeFiles/package.dir
 C:/labskazenkov/lab3/build/CMakeFiles/package_source.dir
 C:/labskazenkov/lab3/build/CMakeFiles/test.dir

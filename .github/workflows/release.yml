@@ -1,99 +1,108 @@
-name: Build and Release for Linux and macOS
+name: 'C++ CI'
 
-on:
+# Запускаем workflow при пуше в ветки lab1 или feature/github_actions
+on: 
+  # событие запускаем
   push:
     branches:
       - main
+      - feature/github_actions
 
 jobs:
-  build-macos:
-    runs-on: macos-latest
-    permissions: write-all
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
-
-      - name: Install dependencies
-        run: brew update && brew install boost
-
-      - name: Configure project
-        run: cmake . -DPATCH_VERSION=${{ github.run_number }}
-
-      - name: Build project
-        run: cmake --build .
-
-      - name: Run tests
-        run: cmake --build . --target test || echo "No tests to run"
-
-      - name: Check if tag exists for macOS
-        id: check_tag_macos
-        run: |
-          if git rev-parse "refs/tags/v${{ github.run_number }}-macos" >/dev/null 2>&1; then
-            echo "Tag exists for macOS. Exiting..."
-            echo "tag_exists=true" >> $GITHUB_ENV 
-            exit 0
-          else
-            echo "tag_exists=false" >> $GITHUB_ENV 
-          fi
-
-      - name: Debug Environment Variables
-        run: |
-          echo "Current tag_exists value is ${{ env.tag_exists }}"
-
-      - name: Create Release for macOS
-        if: env.tag_exists != 'true'
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ github.run_number }}-macos
-          release_name: Release ${{ github.run_number }} for macOS
-          draft: false
-          prerelease: false
-
-  build-linux:
+  build_ubuntu:
+    # Запускаем job на ubuntu-latest
     runs-on: ubuntu-latest
+    # Предоставляем разрешения на запись во все ресурсы
     permissions: write-all
     steps:
+      # Клонируем репозиторий, включая submodules
       - uses: actions/checkout@v3
         with:
           submodules: true
-
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y libboost-test-dev
-
-      - name: Configure project
-        run: cmake . -DPATCH_VERSION=${{ github.run_number }}
-
-      - name: Build project
-        run: cmake --build .
-
-      - name: Run tests
-        run: cmake --build . --target test || echo "No tests to run"
-
-      - name: Check if tag exists for Linux
-        id: check_tag_linux
+      # Устанавливаем libboost-test-dev
+      - run: sudo apt-get update && sudo apt-get install libboost-test-dev -y
+      # Конфигурируем проект с помощью CMake, используя номер запуска для PATCH_VERSION
+      - run: cmake . -DPATCH_VERSION=${{ github.run_number }}
+      # Строим проект с помощью CMake
+      - run: cmake --build .
+      # Запускаем тесты
+      - name: Run Tests
         run: |
-          if git rev-parse "refs/tags/v${{ github.run_number }}-linux" >/dev/null 2>&1; then
-            echo "Tag exists for Linux. Exiting..."
-            echo "tag_exists=true" >> $GITHUB_ENV 
-            exit 0 
-          else 
-            echo "tag_exists=false" >> $GITHUB_ENV 
-          fi
-
-      - name: Debug Environment Variables for Linux
-        run: |
-          echo "Current tag_exists value is ${{ env.tag_exists }}"
-
-      - name: Create Release for Linux 
-        if: env.tag_exists != 'true'
-        uses: actions/create-release@v1 
+          ctest --output-on-failure || exit 1  # Проверяем наличие тестов и их успешное выполнение
+      # Создаем пакет
+      - run: cmake --build . --target package
+      # Создаем релиз для Ubuntu
+      - name: Create Release (Ubuntu)
+        id: create_release_ubuntu
+        # Используем action для создания релиза
+        uses: actions/create-release@v1
+        # Используем GITHUB_TOKEN для аутентификации
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Устанавливаем tag_name, release_name и другие параметры
+        with:
+          tag_name: v${{ github.run_number }} # Используем номер запуска для тега
+          release_name: Release ${{ github.run_number }} (Ubuntu)
+          draft: false # Не публикуем релиз в черновике
+          prerelease: false # Не публикуем как предварительную версию
+      # Загружаем релизный ассет для Ubuntu
+      - name: Upload Release Asset (Ubuntu)
+        id: upload-release-asset-ubuntu
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ github.run_number }}-linux 
-          release_name: Release ${{ github.run_number }} for Linux 
-          draft: false 
-          prerelease: false 
+          upload_url: ${{ steps.create_release_ubuntu.outputs.upload_url }}
+          asset_path: ./coollab2-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: coollab2-0.0.${{ github.run_number }}-Linux.deb
+          asset_content_type: application/vnd.debian.binary-package
+          allowUpdates: true # Разрешаем обновление уже загруженного ассета
+
+  build_macos:
+    # Запускаем job на macos-latest
+    runs-on: macos-latest
+    # Предоставляем разрешения на запись во все ресурсы
+    permissions: write-all
+    steps:
+      # Клонируем репозиторий, включая submodules
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+      # Устанавливаем boost с помощью Homebrew
+      - run: brew install boost
+      # Конфигурируем проект с помощью CMake, используя номер запуска для PATCH_VERSION
+      - run: cmake . -DPATCH_VERSION=${{ github.run_number }}
+      # Строим проект с помощью CMake
+      - run: cmake --build .
+      # Запускаем тесты
+      - name: Run Tests
+        run: |
+          ctest --output-on-failure || exit 1  # Проверяем наличие тестов и их успешное выполнение
+      
+      # Создаем пакет
+      - run: cmake --build . --target package
+      # Создаем релиз для MacOS
+      - name: Create Release (MacOS)
+        id: create_release_macos
+        # Используем action для создания релиза
+        uses: actions/create-release@v1
+        # Используем GITHUB_TOKEN для аутентификации
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Устанавливаем tag_name, release_name и другие параметры
+        with:
+          tag_name: ${{ github.run_number }} # Используем номер запуска для тега
+          release_name: Release ${{ github.run_number }} (MacOS)
+          draft: false # Не публикуем релиз в черновике
+          prerelease: false # Не публикуем как предварительную версию
+      # Загружаем релизный ассет для MacOS
+      - name: Upload Release Asset (MacOS)
+        id: upload-release-asset-macos
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release_macos.outputs.upload_url }}
+          asset_path: ./coollab2-0.0.${{ github.run_number }}-Darwin.zip
+          asset_name: coollab2-0.0.${{ github.run_number }}-Darwin.zip
+          asset_content_type: application/zip

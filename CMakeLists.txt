@@ -1,29 +1,37 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.5.0) # Устанавливает минимальную версию CMake, необходимую для этого проекта.
+set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
+set(PROJECT_VESRION 0.0.${PATCH_VERSION})
+# Создает переменные PATCH_VERSION и PROJECT_VESRION для управления версиями проекта.
 
-project(helloworld VERSION 0.0.1)  # Укажите версию проекта
+project(coollab2 VERSION ${PROJECT_VESRION}) # Определяет имя проекта coollab2 и использует переменную PROJECT_VESRION для указания версии проекта.
+# add_executable(coollab2 main.cpp cool.cpp cool.h)
 
-# Установите стандарт C++
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CXX_STANDARD_REQUIRED ON)
 
-# Найдите библиотеку Boost, если она нужна (если не нужна, удалите эту часть)
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+set(CPACK_PROJECT_NAME coollab2)
 
-# Создайте исполняемый файл из main.cpp
-add_executable(helloworld main.cpp)
-
-# Если вы используете Boost, добавьте ссылки на него
-target_link_libraries(helloworld PRIVATE ${Boost_LIBRARIES})
-
-# Опции компиляции (для предупреждений)
-if (MSVC)
-    target_compile_options(helloworld PRIVATE /W4)
-else ()
-    target_compile_options(helloworld PRIVATE -Wall -Wextra -pedantic -Werror)
+# Установка пакета DEB для Linux
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(CPACK_GENERATOR DEB) # Настраивает CPack для создания пакетов DEB (Linux).
+    # Укажите зависимости пакета
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS "libgtk-3-dev libstdc++6-dev")
+endif()
+# Установка пакета ZIP для macOS
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    set(CPACK_GENERATOR ZIP) # Настройка CPack для создания пакетов ZIP (macOS)
 endif()
 
-# Установки для CPack (если вы планируете использовать CPack для сборки пакетов)
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+
+set(CPACK_PACKAGE_CONTACT example@example.com)
+
 include(CPack)
 
-# Установки для тестирования (если вы планируете добавлять тесты в будущем)
-enable_testing()
+enable_testing() # Включает тестирование
+
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
