@@ -863,7 +863,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "coollab2"
+			"value" : "laba3"
 		},
 		{
 			"name" : "CMAKE_PROJECT_VERSION",
@@ -1511,6 +1511,42 @@
 		},
 		{
 			"name" : "coollab2_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/labskazenkov/lab3"
+		},
+		{
+			"name" : "laba3_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/labskazenkov/lab3/build"
+		},
+		{
+			"name" : "laba3_IS_TOP_LEVEL",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "ON"
+		},
+		{
+			"name" : "laba3_SOURCE_DIR",
 			"properties" : 
 			[
 				{

@@ -6,10 +6,11 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-96ab394f16620bdddf68.json",
 					"minimumCMakeVersion" : 
 					{
-						"string" : "3.5.0"
+						"string" : "3.10"
 					},
 					"projectIndex" : 0,
 					"source" : ".",
@@ -27,7 +28,7 @@
 					[
 						0
 					],
-					"name" : "coollab2",
+					"name" : "laba3",
 					"targetIndexes" : 
 					[
 						0
@@ -38,9 +39,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "coollab2::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-coollab2-Debug-44f01a1b630b7aa51d3d.json",
-					"name" : "coollab2",
+					"id" : "laba3::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-laba3-Debug-5b6d3291b64feb7dd1d8.json",
+					"name" : "laba3",
 					"projectIndex" : 0
 				}
 			]

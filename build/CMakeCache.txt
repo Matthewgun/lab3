@@ -153,7 +153,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=coollab2
+CMAKE_PROJECT_NAME:STATIC=laba3
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION:STATIC=0.0.1
@@ -288,6 +288,15 @@ coollab2_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 coollab2_SOURCE_DIR:STATIC=C:/labskazenkov/lab3
+
+//Value Computed by CMake
+laba3_BINARY_DIR:STATIC=C:/labskazenkov/lab3/build
+
+//Value Computed by CMake
+laba3_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+laba3_SOURCE_DIR:STATIC=C:/labskazenkov/lab3
 
 
 ########################

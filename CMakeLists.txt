@@ -1,42 +1,31 @@
-cmake_minimum_required(VERSION 3.5.0)  # Set the minimum required version of CMake
-
-# Set the patch version as an internal cache variable
+cmake_minimum_required(VERSION 3.10) # Устанавливает минимальную версию CMake, необходимую для этого проекта.
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
+set(PROJECT_VESRION 0.0.${PATCH_VERSION})
+# Создает переменные PATCH_VERSION и PROJECT_VESRION для управления версиями проекта.
 
-# Define the project version using the patch version
-set(PROJECT_VERSION 0.0.${PATCH_VERSION})
+project(laba3 VERSION ${PROJECT_VESRION}) # Определяет имя проекта laba3 и использует переменную PROJECT_VESRION для указания версии проекта.
+add_executable(laba3 main.cpp)
 
-# Define the project name and version
-project(coollab2 VERSION ${PROJECT_VERSION})
-
-# Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CXX_STANDARD_REQUIRED ON)
 
-# Set the package name for CPack
-set(CPACK_PROJECT_NAME coollab2)
+# Установка файлов для инсталляции
+install(TARGETS laba3 DESTINATION bin)
 
-# Configure CPack for package generation
-if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    set(CPACK_GENERATOR DEB)  # Set generator for DEB packages on Linux
-    set(CPACK_DEBIAN_PACKAGE_DEPENDS "libgtk-3-dev;libstdc++6-dev")  # Specify package dependencies
-elseif (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    set(CPACK_GENERATOR ZIP)  # Set generator for ZIP packages on macOS
-endif()
+set(CPACK_PROJECT_NAME laba3)
 
-# Set package version information for CPack
+set(CPACK_GENERATOR "ZIP;DEB")
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 
-# Set contact information for the package maintainer
 set(CPACK_PACKAGE_CONTACT example@example.com)
 
-# Include CPack to enable packaging functionality
 include(CPack)
 
-# Enable testing functionality in CMake
-enable_testing()
+enable_testing() # Включает тестирование
 
-# Add executable target with valid name and source files
-add_executable(coollab2 main.cpp )  # Ensure all source files are included
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
