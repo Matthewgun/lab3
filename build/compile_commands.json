@@ -1,8 +1,8 @@
 [
 {
   "directory": "C:/labskazenkov/lab3/build",
-  "command": "C:\\msys64\\mingw64\\bin\\c++.exe -g -o CMakeFiles\\lab2.dir\\main.cpp.obj -c C:\\labskazenkov\\lab3\\main.cpp",
+  "command": "C:\\msys64\\mingw64\\bin\\c++.exe -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -g -std=gnu++14 -Wall -Wextra -pedantic -Werror -o CMakeFiles\\helloworld.dir\\main.cpp.obj -c C:\\labskazenkov\\lab3\\main.cpp",
   "file": "C:\\labskazenkov\\lab3\\main.cpp",
-  "output": "CMakeFiles\\lab2.dir\\main.cpp.obj"
+  "output": "CMakeFiles\\helloworld.dir\\main.cpp.obj"
 }
 ]

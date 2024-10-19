@@ -9,7 +9,7 @@
 					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
 					{
-						"string" : "3.5.0"
+						"string" : "3.10"
 					},
 					"projectIndex" : 0,
 					"source" : ".",
@@ -27,7 +27,7 @@
 					[
 						0
 					],
-					"name" : "lab2",
+					"name" : "helloworld",
 					"targetIndexes" : 
 					[
 						0
@@ -38,9 +38,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "lab2::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lab2-Debug-426319ad8f5c315a6a49.json",
-					"name" : "lab2",
+					"id" : "helloworld::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-helloworld-Debug-7d32cc77dadf90c87550.json",
+					"name" : "helloworld",
 					"projectIndex" : 0
 				}
 			]
