@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Site BuildName="(empty)"
-	BuildStamp="20241019-1018-Experimental"
+	BuildStamp="20241020-1615-Experimental"
 	Name="(empty)"
 	Generator="ctest-3.28.1"
 	CompilerName=""
@@ -18,17 +18,17 @@
 	ProcessorCacheSize="0"
 	NumberOfLogicalCPU="12"
 	NumberOfPhysicalCPU="6"
-	TotalVirtualMemory="14755"
+	TotalVirtualMemory="16474"
 	TotalPhysicalMemory="7489"
 	LogicalProcessorsPerPhysical="2"
 	ProcessorClockFrequency="2296"
 	>
 	<Testing>
-		<StartDateTime>Oct 20 00:45 Томск (зима)</StartDateTime>
-		<StartTestTime>1729359923</StartTestTime>
+		<StartDateTime>Oct 20 23:15 Томск (зима)</StartDateTime>
+		<StartTestTime>1729440939</StartTestTime>
 		<TestList/>
-		<EndDateTime>Oct 20 00:45 Томск (зима)</EndDateTime>
-		<EndTestTime>1729359923</EndTestTime>
+		<EndDateTime>Oct 20 23:15 Томск (зима)</EndDateTime>
+		<EndTestTime>1729440939</EndTestTime>
 		<ElapsedMinutes>0</ElapsedMinutes>
 	</Testing>
 </Site>
